@@ -91,7 +91,25 @@
     <addaction name="actionOpen_File"/>
     <addaction name="actionStorage_File"/>
    </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>边缘检测</string>
+    </property>
+    <addaction name="action_sobel"/>
+    <addaction name="action_priwitt"/>
+    <addaction name="action_laplace"/>
+   </widget>
+   <widget class="QMenu" name="menu_3">
+    <property name="title">
+     <string>阈值分割</string>
+    </property>
+    <addaction name="action_genrate"/>
+    <addaction name="action_LOG"/>
+    <addaction name="action_maxuim"/>
+   </widget>
    <addaction name="menu"/>
+   <addaction name="menu_2"/>
+   <addaction name="menu_3"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionss">
@@ -116,6 +134,36 @@
    </property>
    <property name="toolTip">
     <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="action_sobel">
+   <property name="text">
+    <string>sobel</string>
+   </property>
+  </action>
+  <action name="action_priwitt">
+   <property name="text">
+    <string>priwitt</string>
+   </property>
+  </action>
+  <action name="action_laplace">
+   <property name="text">
+    <string>拉普拉斯</string>
+   </property>
+  </action>
+  <action name="action_genrate">
+   <property name="text">
+    <string>迭代阈值</string>
+   </property>
+  </action>
+  <action name="action_LOG">
+   <property name="text">
+    <string>LOG</string>
+   </property>
+  </action>
+  <action name="action_maxuim">
+   <property name="text">
+    <string>一维最大熵</string>
    </property>
   </action>
  </widget>
