@@ -43,7 +43,7 @@
        <widget class="QGraphicsView" name="picview_source"/>
       </item>
       <item>
-       <widget class="QGraphicsView" name="picview_target"/>
+       <widget class="QGraphicsView" name="picview_result"/>
       </item>
      </layout>
     </widget>

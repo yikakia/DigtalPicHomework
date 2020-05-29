@@ -79,7 +79,13 @@ class MyWindow(QMainWindow, Ui_MainWindow):
             cv2.imwrite(imgName,self.destImg, [cv2.IMWRITE_JPEG_QUALITY, 50])
         elif imgType == "*.png":
             cv2.imwrite(imgName,self.destImg, [cv2.IMWRITE_PNG_COMPRESSION, 0])
+    
+    # 显示结果图像
+    # 将self.destImg显示在 self.picview_result中
+    def showResultPic(self):
         
+        pass
+
     # 对原图像使用 sobel 算子卷积，并且将结果显示在处理图像栏
     def sobelWork(self) :
         print(inspect.stack()[0][3])
