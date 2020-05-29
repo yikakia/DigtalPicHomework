@@ -96,7 +96,7 @@
      <string>边缘检测</string>
     </property>
     <addaction name="action_sobel"/>
-    <addaction name="action_priwitt"/>
+    <addaction name="action_prewitt"/>
     <addaction name="action_laplace"/>
    </widget>
    <widget class="QMenu" name="menu_3">
@@ -141,9 +141,9 @@
     <string>sobel</string>
    </property>
   </action>
-  <action name="action_priwitt">
+  <action name="action_prewitt">
    <property name="text">
-    <string>priwitt</string>
+    <string>prewitt</string>
    </property>
   </action>
   <action name="action_laplace">

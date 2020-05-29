@@ -23,7 +23,7 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         self.actionStorage_File.triggered.connect(self.savefile)
         # 边缘检测的项
         self.action_sobel.triggered.connect(self.sobelWork)
-        self.action_priwitt.triggered.connect(self.priwittWOrk)
+        self.action_prewitt.triggered.connect(self.prewittWOrk)
         self.action_laplace.triggered.connect(self.laplaceWork)
         # 阈值处理的项
         self.action_genrate.triggered.connect(self.genrateWork)
@@ -92,14 +92,15 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         imgName, imgType = QFileDialog.getSaveFileName(
             self, "保存图片", "*", "*.jpg;;*.png")
         print(imgName, imgType)
-
+        if (self.destImg==[]):
+            print("没有处理结果！不进行保存")
+            return 
         # 利用OpenCV保存图片
         # 按不同的格式区分，分别对应不同的参数
         if imgType == "*.jpg":
             cv2.imwrite(imgName, self.destImg, [cv2.IMWRITE_JPEG_QUALITY, 50])
         elif imgType == "*.png":
             cv2.imwrite(imgName, self.destImg, [cv2.IMWRITE_PNG_COMPRESSION, 0])
-
 
     def showResultPic(self):
         """
@@ -120,18 +121,21 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         self.destImg = sobel(self.srcImg)
         self.showResultPic()
 
-    def priwittWOrk(self):
+    def prewittWOrk(self):
         """
-        对原图像使用 priwitt 算子卷积，并且将结果显示在处理图像栏
+        对原图像使用 prewitt 算子卷积，并且将结果显示在处理图像栏
         """
         print(inspect.stack()[0][3])
-        pass
+        self.destImg = prewitt(self.srcImg)
+        self.showResultPic()
 
     def laplaceWork(self):
         """
         对原图像使用 laplace 算子卷积，并且将结果显示在处理图像栏
         """
         print(inspect.stack()[0][3])
+        self.destImg = laplace(self.srcImg)
+        self.showResultPic()
         pass
 
     
