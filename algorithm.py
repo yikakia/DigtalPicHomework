@@ -4,7 +4,8 @@ from math import sqrt
 
 def sobel (img):
     """
-    读入 OpenCV格式的BGR图像，返回OpenCV格式的BGR图像
+    利用 sobel 算子 进行边缘检测
+    读入 OpenCV格式的BGR图像，返回OpenCV格式的灰度图像
     """
     
     # 定义sobel算子
@@ -37,7 +38,8 @@ def sobel (img):
 
 def prewitt (img):
     """
-    读入 OpenCV格式的BGR图像，返回OpenCV格式的BGR图像
+    利用 prewitt 算子进行边缘检测
+    读入 OpenCV格式的BGR图像，返回OpenCV格式的灰度图像
     """
     # 定义prewitt算子
     prewittx = [[-1,0,1],
@@ -72,7 +74,8 @@ def prewitt (img):
 
 def laplace(img):
     """
-    读入 OpenCV格式的BGR图像，返回OpenCV格式的BGR图像
+    利用拉普拉斯算子进行边缘检测
+    读入 OpenCV格式的BGR图像，返回OpenCV格式的灰度图像
     """
     # 定义 laplace 算子
     laplaceop = [[0,1,0],
@@ -97,6 +100,25 @@ def laplace(img):
                 var = 255
             result[x,y] = var
     return result
+
+def genrate(img):
+    """
+    迭代阈值法
+    输入OpenCV格式的BGR图片，输出OpenCV格式的灰度图
+    """
+
+def log(img):
+    """
+    log算法 阈值检测
+    输入OpenCV格式的BGR图片，输出OpenCV格式的灰度图
+    """
+
+def maximus(img):
+    """
+    以为最大熵
+    输入OpenCV格式的BGR图片，输出OpenCV格式的灰度图
+    """
+
 
 
 if __name__ == "__main__":

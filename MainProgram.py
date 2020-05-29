@@ -141,14 +141,14 @@ class MyWindow(QMainWindow, Ui_MainWindow):
     
     def genrateWork(self):
         """
-        对原图像使用 迭代阈值法 边缘检测，并且将结果显示在处理图像栏
+        对原图像使用 迭代阈值法 阈值检测 ，并且将结果显示在处理图像栏
         """
         print(inspect.stack()[0][3])
         pass
 
     def logWork(self):
         """
-        对原图像使用 log 算法边缘检测，并且将结果显示在处理图像栏
+        对原图像使用 log 算法 阈值检测，并且将结果显示在处理图像栏
         """
 
         print(inspect.stack()[0][3])
@@ -156,7 +156,7 @@ class MyWindow(QMainWindow, Ui_MainWindow):
 
     def maximusWork(self):
         """
-        对原图像使用一维最大熵 算法边缘检测，并且将结果显示在处理图像栏
+        对原图像使用一维最大熵 算法 阈值检测 ，并且将结果显示在处理图像栏
         """
         print(inspect.stack()[0][3])
         pass
