@@ -31,8 +31,8 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         self.action_LOG.triggered.connect(self.logWork)
         self.action_maximus.triggered.connect(self.maximusWork)
         # 初始化实例变量
-        self.srcImg = []    # 原始图像，储存为 OpenCV 中的图像格式
-        self.destImg = []  # 原始图像，储存为 OpenCV 中的图像格式
+        self.srcImg = np.zeros((256,256))     # 原始图像，储存为 OpenCV 中的图像格式
+        self.destImg = np.zeros((256,256))    # 原始图像，储存为 OpenCV 中的图像格式
 
     def cvPic2Qimg(self, img):
         """
@@ -103,6 +103,9 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         """
         保存处理结果的图片
         """
+        if  self.srcImg.any() == self.destImg.any() :
+            print("请先进行处理图像")
+            return 
         # 获得图片地址，图片类型
         imgName, imgType = QFileDialog.getSaveFileName(
             self, "保存图片", "*", "*.jpg;;*.png")
@@ -147,6 +150,9 @@ class MyWindow(QMainWindow, Ui_MainWindow):
             对原图像使用 sobel 算子卷积，并且将结果显示在处理图像栏
         """
         print(inspect.stack()[0][3])
+        if  self.srcImg.any() == self.destImg.any() :
+            print("请先打开图像！")
+            return 
         self.destImg = sobel(self.srcImg)
         self.showResultPic()
 
@@ -155,6 +161,9 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         对原图像使用 prewitt 算子卷积，并且将结果显示在处理图像栏
         """
         print(inspect.stack()[0][3])
+        if  self.srcImg.any() == self.destImg.any() :
+            print("请先打开图像！")
+            return 
         self.destImg = prewitt(self.srcImg)
         self.showResultPic()
 
@@ -163,6 +172,9 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         对原图像使用 laplace 算子卷积，并且将结果显示在处理图像栏
         """
         print(inspect.stack()[0][3])
+        if  self.srcImg.any() == self.destImg.any() :
+            print("请先打开图像！")
+            return 
         self.destImg = laplace(self.srcImg)
         self.showResultPic()
         pass
@@ -172,6 +184,9 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         对原图像使用 迭代阈值法 阈值检测 ，并且将结果显示在处理图像栏
         """
         print(inspect.stack()[0][3])
+        if  self.srcImg.any() == self.destImg.any() :
+            print("请先打开图像！")
+            return 
         self.destImg = genrate(self.srcImg)
         self.showResultPic()
         pass
@@ -181,6 +196,9 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         对原图像使用 log 算法 阈值检测，并且将结果显示在处理图像栏
         """
         print(inspect.stack()[0][3])
+        if  self.srcImg.any() == self.destImg.any() :
+            print("请先打开图像！")
+            return 
         self.destImg=log(self.srcImg)
         self.showResultPic()
         pass
@@ -190,6 +208,9 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         对原图像使用一维最大熵 算法 阈值检测 ，并且将结果显示在处理图像栏
         """
         print(inspect.stack()[0][3])
+        if  self.srcImg.any() == self.destImg.any() :
+            print("请先打开图像！")
+            return 
         self.destImg = maximus(self.srcImg)
         self.showResultPic()
         pass
