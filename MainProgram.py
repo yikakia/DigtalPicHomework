@@ -1,5 +1,6 @@
 import inspect
 import sys
+import threading
 from qimage2ndarray import array2qimage
 from cv2 import cv2
 from PyQt5 import QtGui
@@ -144,6 +145,8 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         对原图像使用 迭代阈值法 阈值检测 ，并且将结果显示在处理图像栏
         """
         print(inspect.stack()[0][3])
+        self.destImg = genrate(self.srcImg)
+        self.showResultPic()
         pass
 
     def logWork(self):
