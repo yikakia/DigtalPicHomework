@@ -152,8 +152,9 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         """
         对原图像使用 log 算法 阈值检测，并且将结果显示在处理图像栏
         """
-
         print(inspect.stack()[0][3])
+        self.destImg=log(self.srcImg)
+        self.showResultPic()
         pass
 
     def maximusWork(self):

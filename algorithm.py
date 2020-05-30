@@ -166,23 +166,49 @@ def genrate(img):
     for x in range(row):
         for y in range(col):
             if value > img_gray[x][y]:
-                result[x][y]=255
+                result[x][y] = 0
             else :
-                result[x][y]=0
+                result[x][y] = 255
     return result
 
 def log(img):
     """
-    log算法 阈值检测
+    log算法 阈值分割
     输入OpenCV格式的BGR图片，输出OpenCV格式的灰度图
+    threshold
     """
-
+    # 定义 LOG 算子
+    logop = [[-2,-4,-4,-4,-2],
+            [-4,0,8,0,-4],
+            [-4,8,24,8,-4],
+            [-4,0,8,0,-4],
+            [-2,-4,-4,-4,-2]]
+    logop =np.array(logop)
+    # 定义阈值
+    valve = 368
+    # 转换为灰度图
+    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    # 获取长宽
+    row, col = img_gray.shape
+    result = np.zeros((row, col))
+    for x in range(2, row-2):
+        for y in range(2, col-2):
+            # 不管四个边进行边缘检测
+            sub = img_gray[x-2:x+3, y-2:y+3]
+            var = np.sum(np.matmul(sub, logop))
+            if(var > valve):
+                var = 0
+            else:
+                var = 255
+            result[x, y] = var
+    return result   
 
 def maximus(img):
     """
     一维最大熵
     输入OpenCV格式的BGR图片，输出OpenCV格式的灰度图
     Threshold 阈值
+    参考 https://blog.csdn.net/Robin__Chou/article/details/53931442
     """
     # 转换为灰度图
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -238,15 +264,15 @@ def maximus(img):
     for x in range(row):
         for y in range(col):
             if threshold > img_gray[x][y]:
-                result[x][y]=255
+                result[x][y] = 0
             else :
-                result[x][y]=0
+                result[x][y] = 255
     return result
 
 
 if __name__ == "__main__":
     img = cv2.imread("lena.jpg")
-    img = genrate(img)
+    img = log(img)
     cv2.imshow("s", img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
