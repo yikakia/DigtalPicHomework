@@ -77,13 +77,27 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         print(imgName, imgType)
         # 利用OpenCV读入图片并存入self.srcImg中
         self.srcImg = cv2.imread(imgName)
+        # 缩放图像为适应窗口的大小
+        # 获得缩放比例
+        width = self.picview_source.width()
+        height = self.picview_source.height()
+        row,col = self.srcImg.shape[1],self.srcImg.shape[0]
+        a = float(width/row)
+        b = float(height/col)
+        if a < b :
+            scale = a
+        else :
+            scale = b
+        dim = (int(row*scale),int(col*scale))
+        # 缩放图像
+        tmpImg = cv2.resize(self.srcImg,dim)
         # 将OpenCV格式储存的图片转换为QT可处理的图片类型
-        qimg = self.cvPic2Qimg(self.srcImg)
+        qimg = self.cvPic2Qimg(tmpImg)
         # 将图片放入图片显示窗口
         scene = QGraphicsScene()
         scene.addPixmap(QPixmap.fromImage(qimg))
         self.picview_source.setScene(scene)
-        # TODO: 增加自动调节大小适应窗口的功能
+        print(self.picview_source.size())
 
     def savefile(self):
         """
@@ -107,8 +121,22 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         """
             显示结果图像,将self.destImg显示在 self.picview_result中 
         """
+        # 缩放图像为适应窗口的大小
+        # 获得缩放比例
+        width = self.picview_result.width()
+        height = self.picview_result.height()
+        row,col = self.destImg.shape[1],self.destImg.shape[0]
+        a = float(width/row)
+        b = float(height/col)
+        if a < b :
+            scale = a
+        else :
+            scale = b
+        dim = (int(row*scale),int(col*scale))
+        # 缩放图像
+        tmpImg = cv2.resize(self.destImg,dim)
         # 将OpenCV格式储存的图片转换为QT可处理的图片类型
-        qimg = self.cvPic2Qimg(self.destImg)
+        qimg = self.cvPic2Qimg(tmpImg)
         # 将图片放入图片显示窗口
         scene = QGraphicsScene()
         scene.addPixmap(QPixmap.fromImage(qimg))
