@@ -1,4 +1,4 @@
-from math import sqrt
+from math import sqrt,log10
 
 import numpy as np
 from cv2 import cv2
@@ -120,20 +120,20 @@ def genrate(img):
     value = int((int(img_gray.max()) + int(img_gray.min()))/2)
     # 生成直方图便于计算
     F = np.zeros(256)
-    for x in range(col) :
-        for y in range(row) :
+    for x in range(row) :
+        for y in range(col) :
             F[img_gray[x][y]] = F[img_gray[x][y]] + 1
     # 获得前景色的数量
     def getFrontColorNum(median):
         nFrontColor = 0
-        for i in range(median):
+        for i in range (median,256):
             nFrontColor = nFrontColor + F[i]
         return nFrontColor
     
     # 获得背景色的数量
     def getBackColorNum(median):
         nBackColor = 0
-        for i in range (median,256):
+        for i in range(median):    
             nBackColor = nBackColor + F[i]
         return nBackColor
 
@@ -143,22 +143,26 @@ def genrate(img):
         tmp2 = 0
         sum1 = 0
         sum2 = 0
-        for i in range(median):
+        for i in range(median,256):
             tmp1 = tmp1 + F[i] * i
         sum1 = tmp1/getFrontColorNum(median)
-        for i in range(median,256):
+        for i in range(median):
             tmp2 = tmp2 + F[i] * i
         sum2 = tmp2/getBackColorNum(median)
         return (sum1+sum2)/2
     
     nextValue = int(getNextValue(value))
+    difference = abs(nextValue - value)
     # 迭代阈值
     while (nextValue!=value):
-        print(value,nextValue)
         value = nextValue
         nextValue = int(getNextValue(value))
-
+        # 当差值不再减小时说明就找到了合适的阈值
+        if difference <= abs(nextValue - value):
+            break
     value = int(value)
+    print("迭代阈值法的结果为",value)
+    # 二值化
     for x in range(row):
         for y in range(col):
             if value > img_gray[x][y]:
@@ -176,9 +180,68 @@ def log(img):
 
 def maximus(img):
     """
-    以为最大熵
+    一维最大熵
     输入OpenCV格式的BGR图片，输出OpenCV格式的灰度图
+    Threshold 阈值
     """
+    # 转换为灰度图
+    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    # 获取长宽
+    row, col = img_gray.shape
+    # 生成结果图像矩阵
+    result = np.zeros((row, col))
+    # 生成直方图便于计算
+    F = np.zeros(256)
+    for x in range(row) :
+        for y in range(col) :
+            F[img_gray[x][y]] = F[img_gray[x][y]] + 1
+    
+    
+    def getFrontColorNum(median):
+        """获得前景色的数量，输入 median 为阈值的大小"""
+        nFrontColor = 0
+        for i in range (median,256):
+            nFrontColor = nFrontColor + F[i]
+        return nFrontColor
+     
+    def getBackColorNum(median):
+        """获得背景色的数量，输入 median 为阈值的大小"""
+        nBackColor = 0
+        for i in range(median):    
+            nBackColor = nBackColor + F[i]
+        return nBackColor
+
+    maxEntropy = -10
+    threshold = 0
+    # 求出最大熵
+    for tmpThreshold in range(256) :
+        nFrontColor = getFrontColorNum(tmpThreshold)
+        nBackColor = getBackColorNum(tmpThreshold)
+        # 计算背景熵
+        backEntropy = 0
+        for i in range(tmpThreshold):
+            if F[i]!=0 :
+                Property = F[i]/nBackColor
+                backEntropy = -Property*log10(float(Property)) + backEntropy
+        # 计算前景熵
+        frontEntropy = 0
+        for i in range(tmpThreshold,256):
+            if F[i] != 0 :
+                Property = F[i]/nFrontColor
+                frontEntropy = -Property*log10(float(Property)) + frontEntropy
+        # 求最大熵
+        if (frontEntropy + backEntropy >= maxEntropy) :
+            maxEntropy = frontEntropy + backEntropy
+            threshold = tmpThreshold
+    print("一维最大熵的阈值为：",threshold)
+    # 二值化结果
+    for x in range(row):
+        for y in range(col):
+            if threshold > img_gray[x][y]:
+                result[x][y]=255
+            else :
+                result[x][y]=0
+    return result
 
 
 if __name__ == "__main__":

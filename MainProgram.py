@@ -138,7 +138,6 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         self.destImg = laplace(self.srcImg)
         self.showResultPic()
         pass
-
     
     def genrateWork(self):
         """
@@ -162,6 +161,8 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         对原图像使用一维最大熵 算法 阈值检测 ，并且将结果显示在处理图像栏
         """
         print(inspect.stack()[0][3])
+        self.destImg = maximus(self.srcImg)
+        self.showResultPic()
         pass
 
 
