@@ -30,6 +30,7 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         self.action_genrate.triggered.connect(self.genrateWork)
         self.action_LOG.triggered.connect(self.logWork)
         self.action_maximus.triggered.connect(self.maximusWork)
+        self.action_LOGwithZero.triggered.connect(self.logWithZeroWork)
         # 初始化实例变量
         self.srcImg = np.zeros((256,256))     # 原始图像，储存为 OpenCV 中的图像格式
         self.destImg = np.zeros((256,256))    # 原始图像，储存为 OpenCV 中的图像格式
@@ -215,6 +216,17 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         self.showResultPic()
         pass
 
+    def logWithZeroWork(self):
+        """
+        对原图像使用 LOG 算子 阈值检测 并进行零交叉，并且将结果显示在处理图像栏
+        """        
+        print(inspect.stack()[0][3])
+        if  self.hasOpen == False :
+            print("请先打开图像！")
+            return 
+        self.destImg = logwithzero(self.srcImg)
+        self.showResultPic()
+        pass
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
