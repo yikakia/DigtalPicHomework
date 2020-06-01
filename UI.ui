@@ -112,6 +112,7 @@
     <addaction name="action_genrate"/>
     <addaction name="action_LOG"/>
     <addaction name="action_maximus"/>
+    <addaction name="action_LOGwithZero"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -164,12 +165,17 @@
   </action>
   <action name="action_LOG">
    <property name="text">
-    <string>LOG</string>
+    <string>LOG-无零交叉</string>
    </property>
   </action>
   <action name="action_maximus">
    <property name="text">
     <string>一维最大熵</string>
+   </property>
+  </action>
+  <action name="action_LOGwithZero">
+   <property name="text">
+    <string>LOG-零交叉</string>
    </property>
   </action>
  </widget>
