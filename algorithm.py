@@ -3,7 +3,6 @@ from math import sqrt,log10
 import numpy as np
 from cv2 import cv2
 
-
 def sobel(img):
     """
     利用 sobel 算子 进行边缘检测
@@ -37,7 +36,6 @@ def sobel(img):
                 var = 255
             result[x, y] = var
     return result
-
 
 def prewitt(img):
     """
@@ -75,7 +73,6 @@ def prewitt(img):
 
     return result
 
-
 def laplace(img):
     """
     利用拉普拉斯算子进行边缘检测
@@ -104,7 +101,6 @@ def laplace(img):
                 var = 255
             result[x, y] = var
     return result
-
 
 def genrate(img):
     """
@@ -152,14 +148,11 @@ def genrate(img):
         return (sum1+sum2)/2
     
     nextValue = int(getNextValue(value))
-    difference = abs(nextValue - value)
     # 迭代阈值
     while (nextValue!=value):
         value = nextValue
         nextValue = int(getNextValue(value))
-        # 当差值不再减小时说明就找到了合适的阈值
-        if difference <= abs(nextValue - value):
-            break
+
     value = int(value)
     print("迭代阈值法的结果为",value)
     # 二值化
