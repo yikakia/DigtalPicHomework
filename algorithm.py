@@ -1,8 +1,9 @@
-from math import sqrt, log10
+from copy import copy
+from math import log10, sqrt
 
 import numpy as np
 from cv2 import cv2
-from copy import copy
+
 
 def sobel(img):
     """
@@ -105,76 +106,10 @@ def laplace(img):
             result[x, y] = var
     return result
 
-
-def genrate(img):
-    """
-    迭代阈值法
-    输入OpenCV格式的BGR图，输出OpenCV格式的灰度图
-    """
-    # 转换为灰度图
-    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    # 获取长宽
-    row, col = img_gray.shape
-    result = np.zeros((row, col))
-    # 求第一代阈值
-    value = int((int(img_gray.max()) + int(img_gray.min()))/2)
-    # 生成直方图便于计算
-    F = np.zeros(256)
-    for x in range(row):
-        for y in range(col):
-            F[img_gray[x][y]] = F[img_gray[x][y]] + 1
-    # 获得前景色的数量
-
-    def getFrontColorNum(median):
-        nFrontColor = 0
-        for i in range(median, 256):
-            nFrontColor = nFrontColor + F[i]
-        return nFrontColor
-
-    # 获得背景色的数量
-    def getBackColorNum(median):
-        nBackColor = 0
-        for i in range(median):
-            nBackColor = nBackColor + F[i]
-        return nBackColor
-
-    # 计算下一代阈值
-    def getNextValue(median):
-        tmp1 = 0
-        tmp2 = 0
-        sum1 = 0
-        sum2 = 0
-        for i in range(median, 256):
-            tmp1 = tmp1 + F[i] * i
-        sum1 = tmp1/getFrontColorNum(median)
-        for i in range(median):
-            tmp2 = tmp2 + F[i] * i
-        sum2 = tmp2/getBackColorNum(median)
-        return (sum1+sum2)/2
-
-    nextValue = int(getNextValue(value))
-    # 迭代阈值
-    while (nextValue != value):
-        value = nextValue
-        nextValue = int(getNextValue(value))
-
-    value = int(value)
-    print("迭代阈值法的结果为", value)
-    # 二值化
-    for x in range(row):
-        for y in range(col):
-            if value > img_gray[x][y]:
-                result[x][y] = 0
-            else:
-                result[x][y] = 255
-    return result
-
-
 def log(img):
     """
-    log算法 阈值分割
+    利用 log 算子 边缘检测
     输入OpenCV格式的BGR图片，输出OpenCV格式的灰度图
-    threshold
     """
     # 定义 LOG 算子
     logop = [[-2, -4, -4, -4, -2],
@@ -205,9 +140,8 @@ def log(img):
 
 def logwithzero(img):
     """
-    log算法 有零交叉 阈值分割
+    log算法 有零交叉 边缘检测
     输入OpenCV格式的BGR图片，输出OpenCV格式的灰度图
-    threshold
     """
     # 定义 LOG 算子
     logop = [[-2, -4, -4, -4, -2],
@@ -279,6 +213,70 @@ def logwithzero(img):
                 var = 255
             tmpImg[x][y] = var
     result = tmpImg 
+    return result
+
+
+def genrate(img):
+    """
+    迭代阈值法
+    输入OpenCV格式的BGR图，输出OpenCV格式的灰度图
+    """
+    # 转换为灰度图
+    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    # 获取长宽
+    row, col = img_gray.shape
+    result = np.zeros((row, col))
+    # 求第一代阈值
+    value = int((int(img_gray.max()) + int(img_gray.min()))/2)
+    # 生成直方图便于计算
+    F = np.zeros(256)
+    for x in range(row):
+        for y in range(col):
+            F[img_gray[x][y]] = F[img_gray[x][y]] + 1
+    # 获得前景色的数量
+
+    def getFrontColorNum(median):
+        nFrontColor = 0
+        for i in range(median, 256):
+            nFrontColor = nFrontColor + F[i]
+        return nFrontColor
+
+    # 获得背景色的数量
+    def getBackColorNum(median):
+        nBackColor = 0
+        for i in range(median):
+            nBackColor = nBackColor + F[i]
+        return nBackColor
+
+    # 计算下一代阈值
+    def getNextValue(median):
+        tmp1 = 0
+        tmp2 = 0
+        sum1 = 0
+        sum2 = 0
+        for i in range(median, 256):
+            tmp1 = tmp1 + F[i] * i
+        sum1 = tmp1/getFrontColorNum(median)
+        for i in range(median):
+            tmp2 = tmp2 + F[i] * i
+        sum2 = tmp2/getBackColorNum(median)
+        return (sum1+sum2)/2
+
+    nextValue = int(getNextValue(value))
+    # 迭代阈值
+    while (nextValue != value):
+        value = nextValue
+        nextValue = int(getNextValue(value))
+
+    value = int(value)
+    print("迭代阈值法的结果为", value)
+    # 二值化
+    for x in range(row):
+        for y in range(col):
+            if value > img_gray[x][y]:
+                result[x][y] = 0
+            else:
+                result[x][y] = 255
     return result
 
 

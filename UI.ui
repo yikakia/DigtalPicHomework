@@ -104,15 +104,15 @@
     <addaction name="action_sobel"/>
     <addaction name="action_prewitt"/>
     <addaction name="action_laplace"/>
+    <addaction name="action_LOG"/>
+    <addaction name="action_LOGwithZero"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
      <string>阈值分割</string>
     </property>
     <addaction name="action_genrate"/>
-    <addaction name="action_LOG"/>
     <addaction name="action_maximus"/>
-    <addaction name="action_LOGwithZero"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -174,6 +174,16 @@
    </property>
   </action>
   <action name="action_LOGwithZero">
+   <property name="text">
+    <string>LOG-零交叉</string>
+   </property>
+  </action>
+  <action name="actionLOG">
+   <property name="text">
+    <string>LOG-无零交叉</string>
+   </property>
+  </action>
+  <action name="actionLOG_2">
    <property name="text">
     <string>LOG-零交叉</string>
    </property>
