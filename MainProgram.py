@@ -99,6 +99,7 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         scene.addPixmap(QPixmap.fromImage(qimg))
         self.picview_source.setScene(scene)
         self.hasOpen = True
+        self.label_2.setText("处理图像")
 
     def savefile(self):
         """
@@ -156,6 +157,7 @@ class MyWindow(QMainWindow, Ui_MainWindow):
             return 
         self.destImg = sobel(self.srcImg)
         self.showResultPic()
+        self.label_2.setText("处理结果: sobel 算子")
 
     def prewittWOrk(self):
         """
@@ -167,6 +169,7 @@ class MyWindow(QMainWindow, Ui_MainWindow):
             return 
         self.destImg = prewitt(self.srcImg)
         self.showResultPic()
+        self.label_2.setText("处理结果: prewitt 算子")
 
     def laplaceWork(self):
         """
@@ -178,6 +181,7 @@ class MyWindow(QMainWindow, Ui_MainWindow):
             return 
         self.destImg = laplace(self.srcImg)
         self.showResultPic()
+        self.label_2.setText("处理结果: 拉普拉斯算子")
         pass
     
     def genrateWork(self):
@@ -190,6 +194,7 @@ class MyWindow(QMainWindow, Ui_MainWindow):
             return 
         self.destImg = genrate(self.srcImg)
         self.showResultPic()
+        self.label_2.setText("处理结果: 迭代阈值法")
         pass
 
     def logWork(self):
@@ -202,6 +207,7 @@ class MyWindow(QMainWindow, Ui_MainWindow):
             return 
         self.destImg=log(self.srcImg)
         self.showResultPic()
+        self.label_2.setText("处理结果: log 无零交叉")
         pass
 
     def maximusWork(self):
@@ -214,6 +220,7 @@ class MyWindow(QMainWindow, Ui_MainWindow):
             return 
         self.destImg = maximus(self.srcImg)
         self.showResultPic()
+        self.label_2.setText("处理结果: 一维最大熵")
         pass
 
     def logWithZeroWork(self):
@@ -226,6 +233,7 @@ class MyWindow(QMainWindow, Ui_MainWindow):
             return 
         self.destImg = logwithzero(self.srcImg)
         self.showResultPic()
+        self.label_2.setText("处理结果: log 有零交叉")
         pass
 
 if __name__ == '__main__':
