@@ -19,7 +19,7 @@ def sobel(img):
                [0, 0, 0],
                [1, 2, -1]]
     # 定义阈值
-    valve = 188
+    valve = 116
     # 转换为灰度图
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     # 获取长宽
@@ -29,8 +29,8 @@ def sobel(img):
         for y in range(1, col-1):
             # 不管四个边进行边缘检测
             sub = img_gray[x-1:x+2, y-1:y+2]
-            var_x = np.sum(np.matmul(sub, sobel_x))
-            var_y = np.sum(np.matmul(sub, sobel_y))
+            var_x = np.sum(sub*sobel_x)
+            var_y = np.sum(sub*sobel_y)
             var = abs(var_x) + abs(var_y)
             if(var > valve):
                 var = 0
@@ -55,7 +55,7 @@ def prewitt(img):
     prewittx = np.array(prewittx)
     prewitty = np.array(prewitty)
     # 定义阈值
-    valve = 188
+    valve = 116
     # 转换为灰度图
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     # 获取长宽
@@ -65,8 +65,8 @@ def prewitt(img):
         for y in range(1, col-1):
             # 不管四个边进行边缘检测
             sub = img_gray[x-1:x+2, y-1:y+2]
-            var_x = np.sum(np.matmul(sub, prewittx))
-            var_y = np.sum(np.matmul(sub, prewitty))
+            var_x = np.sum(sub*prewittx)
+            var_y = np.sum(sub*prewitty)
             var = sqrt(var_x*var_x+var_y*var_y)
             if(var > valve):
                 var = 0
@@ -88,7 +88,7 @@ def laplace(img):
                  [0, 1, 0]]
     laplaceop = np.array(laplaceop)
     # 定义阈值
-    valve = 81
+    valve = 40
     # 转换为灰度图
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     # 获取长宽
@@ -98,7 +98,7 @@ def laplace(img):
         for y in range(1, col-1):
             # 不管四个边进行边缘检测
             sub = img_gray[x-1:x+2, y-1:y+2]
-            var = np.sum(np.matmul(sub, laplaceop))
+            var = np.sum(sub*laplaceop)
             if(var > valve):
                 var = 0
             else:
@@ -119,7 +119,7 @@ def log(img):
              [-2, -4, -4, -4, -2]]
     logop = np.array(logop)
     # 定义阈值
-    valve = 368
+    valve = 116
     # 转换为灰度图
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     # 获取长宽
@@ -129,7 +129,7 @@ def log(img):
         for y in range(2, col-2):
             # 不管四个边进行边缘检测
             sub = img_gray[x-2:x+3, y-2:y+3]
-            var = np.sum(np.matmul(sub, logop))
+            var = np.sum(sub*logop)
             if(var > valve):
                 var = 0
             else:
@@ -151,7 +151,7 @@ def logwithzero(img):
              [-2, -4, -4, -4, -2]]
     logop = np.array(logop)
     # 定义阈值
-    value = 389
+    value = 116
     # 转换为灰度图
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     # 获取长宽
@@ -202,7 +202,7 @@ def logwithzero(img):
         for y in range(2, col-2):
             # 不管四个边进行边缘检测
             sub = img_gray[x-2:x+3, y-2:y+3]
-            var = np.sum(np.matmul(sub, logop))
+            var = np.sum(sub*logop)
             result[x, y] = var
     tmpImg = copy(result)
     for x in range(1, row-1):
@@ -348,7 +348,7 @@ def maximus(img):
 
 if __name__ == "__main__":
     img = cv2.imread("lena.jpg")
-    img = logwithzero(img)
+    img = laplace(img)
     cv2.imshow("s", img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
