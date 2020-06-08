@@ -106,6 +106,7 @@ def laplace(img):
             result[x, y] = var
     return result
 
+
 def log(img):
     """
     利用 log 算子 边缘检测
@@ -157,6 +158,7 @@ def logwithzero(img):
     # 获取长宽
     row, col = img_gray.shape
     result = np.zeros((row, col))
+
     def isZeroCross(img, x, y):
         """
         判断该点是否是零交叉点，如果是则返回 True ;不是则返回 False
@@ -169,7 +171,8 @@ def logwithzero(img):
         """
         # flag表示这是不是零交叉点
         flag = False
-        def diff(a,b):
+
+        def diff(a, b):
             """
                 如果a,b异号则返回True，其余情况返回False
             """
@@ -178,41 +181,49 @@ def logwithzero(img):
             elif (a < 0) and (b > 0):
                 return True
             return False
-        
-        def abssmall(a,b):
+
+        def abssmall(a, b):
             """"
             如果a的绝对值小于b的绝对值则返回True，其余情况返回False
             """
-            if(abs(a)<abs(b)):
+            if(abs(a) < abs(b)):
                 return True
             else:
                 return False
         # 判断是不是零交叉点
-        if abssmall(img[x][y],img[x-1][y]) and abssmall(img[x][y],img[x+1][y]) and diff(img[x-1][y],img[x+1][y]):
+        if abssmall(img[x][y], img[x-1][y]) and abssmall(img[x][y], img[x+1][y]) and diff(img[x-1][y], img[x+1][y]):
             flag = True
-        elif abssmall(img[x][y],img[x-1][y-1]) and abssmall(img[x][y],img[x+1][y+1]) and diff(img[x-1][y-1],img[x+1][y+1]):
+        elif abssmall(img[x][y], img[x-1][y-1]) and abssmall(img[x][y], img[x+1][y+1]) and diff(img[x-1][y-1], img[x+1][y+1]):
             flag = True
-        elif abssmall(img[x][y],img[x][y-1]) and abssmall(img[x][y],img[x][y+1]) and diff(img[x][y-1],img[x][y+1]):
+        elif abssmall(img[x][y], img[x][y-1]) and abssmall(img[x][y], img[x][y+1]) and diff(img[x][y-1], img[x][y+1]):
             flag = True
-        elif abssmall(img[x][y],img[x-1][y+1]) and abssmall(img[x][y],img[x+1][y-1]) and diff(img[x-1][y+1],img[x+1][y-1]):
-            flag =True
-        return flag              
+        elif abssmall(img[x][y], img[x-1][y+1]) and abssmall(img[x][y], img[x+1][y-1]) and diff(img[x-1][y+1], img[x+1][y-1]):
+            flag = True
+        return flag
 
+    count = 0
     for x in range(2, row-2):
         for y in range(2, col-2):
             # 不管四个边进行边缘检测
             sub = img_gray[x-2:x+3, y-2:y+3]
             var = np.sum(sub*logop)
             result[x, y] = var
+            if var > value :
+                count += 1
+    print("无零交叉信噪比是:{0}%".format(100*count/(row*col-count)))
+
+    count = 0
     tmpImg = copy(result)
     for x in range(1, row-1):
         for y in range(1, col-1):
-            if (isZeroCross(result,x,y) and result[x][y] > value ) :
+            if (isZeroCross(result, x, y) and result[x][y] > value):
                 var = 0
-            else :
+                count += 1
+            else:
                 var = 255
             tmpImg[x][y] = var
-    result = tmpImg 
+    print("有零交叉信噪比是:{0}%".format(100*count/(row*col-count)))
+    result = tmpImg
     return result
 
 
@@ -347,7 +358,8 @@ def maximus(img):
 
 
 if __name__ == "__main__":
-    img = cv2.imread("lena.jpg")
+    imgpath = "lena.jpg"
+    img = cv2.imread(imgpath)
     img = laplace(img)
     cv2.imshow("s", img)
     cv2.waitKey(0)
